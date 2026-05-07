@@ -4,7 +4,7 @@ CFLAGS=-Wall -O3 -static
 LIBS=-lhts -lpthread -ldeflate -lisal -lcairo -lfontconfig -lpixman-1 -lfreetype -lexpat -lzip -lbz2 -llzma -lpng -lm -ldl -lz
 else
 CFLAGS=-Wall -O3 -march=native
-LIBS=-lhts -lisal -lm -lcairo
+LIBS=-lhts -lisal -lm -lcairo -lpng -lpixman -llzma -ldeflate -lcurl -lbz2 -lz -framework CoreFoundation -framework CoreGraphics -framework ApplicationServices
 endif
 
 CC=cc
