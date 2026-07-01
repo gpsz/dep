@@ -337,7 +337,7 @@ void draw_ped1(cairo_t *cr, kh_t *os, uint32_t md, uint64_t gl, bool bold, bool 
 {
 	double w1 = 1.0, w2 = 1.0, x, y, w, h;
 	cairo_device_to_user_distance(cr, &w1, &w2);
-	double lw = bold ? fmin(w1, w2) : fmin(w1, w2) / 2;
+	double lw = bold ? fmin(w1, w2) * 2 : fmin(w1, w2) / 2;
 	cairo_set_line_width(cr, lw);
 	cairo_set_line_cap(cr, CAIRO_LINE_CAP_BUTT);
 	double ymx = ceil(log10(md)) + 1;
@@ -600,7 +600,11 @@ void prs_arg(int argc, char **argv, arg_t *arg)
 	char bai[PATH_MAX];
 	snprintf(bai, PATH_MAX, "%s.bai", arg->in);
 	if (access(bai, R_OK))
-		error("Error: bam's index file (.bai) is required, please use samtools sort and index to create it.\n");
+	{
+		strcpy(bai + strlen(bai) - 3, "csi");
+		if (access(bai, R_OK))
+			error("Error: bam's index (.bai or .csi) is required, please use samtools sort and index to create it.\n");
+	}
 	if (!arg->out)
 	{
 		static char png[PATH_MAX];
