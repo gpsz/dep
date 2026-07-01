@@ -600,7 +600,11 @@ void prs_arg(int argc, char **argv, arg_t *arg)
 	char bai[PATH_MAX];
 	snprintf(bai, PATH_MAX, "%s.bai", arg->in);
 	if (access(bai, R_OK))
-		error("Error: bam's index file (.bai) is required, please use samtools sort and index to create it.\n");
+	{
+		strcpy(bai + strlen(bai) - 3, "csi");
+		if (access(bai, R_OK))
+			error("Error: bam's index (.bai or .csi) is required, please use samtools sort and index to create it.\n");
+	}
 	if (!arg->out)
 	{
 		static char png[PATH_MAX];
